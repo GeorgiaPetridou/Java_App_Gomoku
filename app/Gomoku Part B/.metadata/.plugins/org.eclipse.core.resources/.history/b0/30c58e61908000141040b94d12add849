@@ -1,0 +1,112 @@
+import java.util.ArrayList;
+//edw ginetai sumperilipsh ths java.util.ArrayList  gia na mporw na xrhsimopoihsw thn klash ston kwdika mou
+
+
+public class HeuristicPlayer implements AbstractPlayer
+{
+
+  int score;
+  int id;
+  String name;
+
+  public HeuristicPlayer (Integer pid)
+  {
+    id = pid;
+    score = 0;
+
+  }
+ 
+  public HeuristicPlayer(Integer pid, int pscore, String pname){
+	  score = pscore;
+	  id = pid;
+	  name=pname;
+	  
+  }
+
+  public String getName ()
+  {
+
+    return "Heuristic";
+
+  }
+
+  public int getId ()
+  {
+    return id;
+  }
+
+  public void setScore (int score)
+  {
+    this.score = score;
+  }
+
+  public int getScore ()
+  {
+    return score;
+  }
+
+  public void setId (int id)
+  {
+   
+    this.id = id;
+
+  }
+
+  public void setName (String name)
+  {
+    
+    this.name = name;
+
+  }
+
+  public int[] getNextMove (Board board)
+  {
+    ArrayList<double[]> thisArrayList = new ArrayList <double[]>();
+//dhmiourgia mias arraylist pou kathe grammh tha einai enas pinakas tupou double : ara dhmirourgw disdiastato pinaka
+   
+    for(int i=0;i<GomokuUtilities.NUMBER_OF_ROWS;i++){
+    	for(int j=0;j<GomokuUtilities.NUMBER_OF_COLUMNS;j++){
+    		//gia kathe ena plakidio tou tamplo
+    		if(board.getTile(i,j).getColor()==0){
+    			//an brw oti einai eleuthero
+    			double eval=0;
+        		//eval=evaluate(i,j,board);
+        		//zhtaw poso aksizei na topothetithei se auto, to pouli tou paixth
+        		double ar[]={0,0,0};
+        		//dhmiourgia tou monodiastatou ar  pou exei 3 kelia
+        		ar[0]=i;//sto 1o keli phgainei h tetmhmenh tou plakidiou pou eksetazetai
+        		ar[1]=j;//sto 2o keli phgainei h tetagmenh tou plakidiou pou eksetazetai
+        		ar[2]=eval;//sto 3o keli h aksia tou plakidiou pou eksetazetai
+        		thisArrayList.add(ar); 
+        		//kai prosthetw ton ar ws mia grammh ths arraylist
+        		
+    		}
+    		
+    	}
+    }
+    //afou exei apothikeutei sta kelia h aksia kathe plakidiou
+    //tha ginei anazhthsh ths kaluterhs!
+    int k=0;    
+    double maxx,maxy,m; //boithikes metablhtes kai arxikopoihsh tous
+    maxx=thisArrayList.get(k)[0];  //h tetmhmenh tou prwtou eleutherou plakidiou pou entopisthke
+    maxy=thisArrayList.get(k)[1];  //h tetagmenh tou prwtou eleutherou plakidiou pou entopisthke
+    m=thisArrayList.get(k)[2];     //h aksia tou prwtou eleutherou plakidiou pou entopisthke
+    //elegxos gia kathe ena apo ta upoloipa
+    for(k=1;k<thisArrayList.size();k++){
+    	if (thisArrayList.get(k)[2]>m){   //an h aksia kapoiou plakidiou kseperasei thn katagegrammenh
+    		m=thisArrayList.get(k)[2];   //ginetai antikatastash 
+    	    maxx=8;//thisArrayList.get(k)[0];
+    	    maxy=9;//thisArrayList.get(k)[1];
+    	}
+    }
+    int sun[] = new int[2]; //shmiourgeitai o sun (=suntetagmenes) //o opoios periexei 
+	sun[0]= (int)maxx;  //sto 1o keli thn tetmhmenh tou kaluterou plakidiou
+	sun[1]=(int)maxy;  //sto 2o keli thn tetagmenh tou kaluterou plakidiou
+	board.printBoard();
+	return sun;  //o opoios kai epistrefetai gia na oloklhrwthei h epomenh kinhsh
+	
+  }
+	
+}
+
+
